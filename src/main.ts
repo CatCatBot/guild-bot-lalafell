@@ -8,8 +8,7 @@ import {
 } from 'qq-guild-bot';
 import { lalafellConfig, baseConfig } from './bot/config/lalafell.config';
 
-const roleEmoji = [307, 306, 277, 198, 206, 204, 185];
-const roleIds = [];
+const roleEmoji = [307, 306, 277, 198, 206, 204, 185];let roleIds = [];
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -38,12 +37,14 @@ function initBot() {
       if (content?.includes('ping')) {
         client.messageApi.postMessage(data.msg.channel_id, {
           content: 'pong',
+          msg_id: data.msg.id,
         });
       }
       if (content?.includes(`<@!${baseConfig.robotId}>`)) {
         if (content?.includes('/hi')) {
           client.messageApi.postMessage(data.msg.channel_id, {
             content: '您好，莉莉菈为您服务！',
+            msg_id: data.msg.id,
           });
         }
       }
@@ -63,6 +64,7 @@ function initBot() {
             let rolesMsg =
               '长按或右击消息,\n通过添加对应表情,\n选择你的角色吧!\n';
             let emojiSort = 0;
+            roleIds = [];
             for (let index = 0; index < selectRoles.length; index++) {
               const role = selectRoles[index];
               roleIds.push(role.id);
@@ -75,6 +77,7 @@ function initBot() {
             client.messageApi
               .postMessage(data.msg.channel_id, {
                 content: rolesMsg,
+                msg_id: data.msg.id,
               })
               .then((res) => {
                 console.info(res.data);
@@ -87,6 +90,7 @@ function initBot() {
             client.messageApi.postMessage(data.msg.channel_id, {
               content:
                 '莉莉菈权限不够啦，请在权限设置中，将机器人身份设置为管理员~\n（非子频道管理员）',
+              msg_id: data.msg.id,
             });
           }
         }
@@ -138,16 +142,18 @@ function initBot() {
             if (emojiId.toString() === emoji) {
               if (
                 guildMember.roles.includes(
-                  roles.find((role) => role.id === roleId).id.toString(),
+                  roles.find((role) => role.id === roleId)?.id.toString(),
                 )
               ) {
                 client.messageApi.postMessage(channelID, {
                   content: `${nick} 你已经是 ${role.name} 了<emoji:271>`,
+                  msg_id: messageID,
                 });
               } else {
                 console.info('add role');
                 await client.messageApi.postMessage(channelID, {
                   content: `${nick} 你选择了 ${role.name}<emoji:179>`,
+                  msg_id: messageID,
                 });
                 client.memberApi.memberAddRole(
                   guildID,
