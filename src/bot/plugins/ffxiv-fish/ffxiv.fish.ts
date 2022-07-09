@@ -2,7 +2,7 @@ import { IMessage } from 'qq-guild-bot';
 // import item from './data/item.json';
 
 const queryFish = async (msg: IMessage, fishName: string) => {
-  const item = await import('./data/item.json');
+  const item = await require('./data/item.json');
   const content = msg.content;
   console.info(content);
   let reply = '';
