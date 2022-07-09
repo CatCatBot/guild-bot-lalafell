@@ -8,6 +8,7 @@ import {
 } from 'qq-guild-bot';
 import { lalafellConfig, baseConfig } from './bot/config/lalafell.config';
 import { postImage } from './bot/ext/post';
+import queryFish from './bot/plugins/ffxiv-fish/ffxiv.fish';
 
 const roleEmoji = [307, 306, 277, 198, 206, 204, 185];
 let roleIds = [];
@@ -46,6 +47,14 @@ function initBot() {
         }
       } catch (error) {
         console.error(error);
+      }
+      if (content?.includes('道具检索')) {
+        const search = content.split(' ')[1];
+        const reply = await queryFish(data.msg, search);
+        client.messageApi.postMessage(channelID, {
+          content: reply,
+          msg_id: data.msg.id,
+        });
       }
       if (content?.includes('ping')) {
         client.messageApi.postMessage(data.msg.channel_id, {
