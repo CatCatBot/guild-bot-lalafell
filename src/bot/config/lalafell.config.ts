@@ -8,9 +8,10 @@ const lalafellConfig = {
     AvailableIntentsEventsEnum.GUILD_MESSAGES,
     AvailableIntentsEventsEnum.GUILD_MESSAGE_REACTIONS,
   ],
-  sandbox: true, // optional, default false
+  sandbox: false, // optional, default false
 };
 const baseConfig = {
   robotId: secret.robotId,
+  imgDir: 'c://github//',
 };
 export { lalafellConfig, baseConfig };

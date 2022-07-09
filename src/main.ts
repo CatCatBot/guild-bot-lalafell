@@ -7,8 +7,10 @@ import {
   IMessage,
 } from 'qq-guild-bot';
 import { lalafellConfig, baseConfig } from './bot/config/lalafell.config';
+import { postImage } from './bot/ext/post';
 
-const roleEmoji = [307, 306, 277, 198, 206, 204, 185];let roleIds = [];
+const roleEmoji = [307, 306, 277, 198, 206, 204, 185];
+let roleIds = [];
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,13 +28,24 @@ function initBot() {
       const channelID = data.msg.channel_id;
       const guildID = data.msg.guild_id;
       const content = data.msg?.content;
-      if (content?.includes('debug')) {
-        const targetID = content.split(' ')[1];
-        const { data: debugMsg } = await client.messageApi.message(
-          channelID,
-          targetID,
-        );
-        console.debug(debugMsg);
+      try {
+        if (content?.includes('debug')) {
+          if (content?.includes('img')) {
+            const picName = content.split(' ')[2];
+            postImage(data.msg, picName).catch((error) => {
+              console.error(error);
+            });
+          } else {
+            const targetID = content.split(' ')[1];
+            const { data: debugMsg } = await client.messageApi.message(
+              channelID,
+              targetID,
+            );
+            console.debug(debugMsg);
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
       if (content?.includes('ping')) {
         client.messageApi.postMessage(data.msg.channel_id, {
