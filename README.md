@@ -2,6 +2,13 @@
 
 莉莉菈 为您服务。
 
+## 使用技术
+使用typescript编写的nodejs项目。
+- [nestjs](https://github.com/nestjs/nest)
+- [typeorm](https://github.com/typeorm/typeorm) 
+- [node-sqlite3](https://github.com/TryGhost/node-sqlite3)
+- [bot-node-sdk](https://github.com/tencent-connect/bot-node-sdk)
+
 ## 目录结构
 
 ```
