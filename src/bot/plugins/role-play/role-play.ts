@@ -1,7 +1,9 @@
-import { AvailableIntentsEventsEnum, IMessage } from 'qq-guild-bot';
+import { LalafellDataSource } from 'src/bot/config/dataSource';
+import { Message } from 'src/bot/entities/message';
 import { baseConfig } from 'src/bot/config/lalafell.config';
 // import item from './data/item.json';
-import sqlite3 from 'sqlite3';
+
+const messageRepository = LalafellDataSource.getRepository(Message);
 const roleEmoji = [307, 306, 277, 198, 206, 204, 185];
 const rolePlay = async (
   client: any,
@@ -27,7 +29,7 @@ const rolePlay = async (
               !role.name.includes('普通成员'),
           );
           let rolesMsg =
-            '长按或右击消息,\n通过添加对应表情,\n选择你的角色吧!\n';
+            '长按或右击消息,\n通过添加对应表情,\n选择你的角色吧!\n(五分钟后失效🕐)\n';
           let emojiSort = 0;
           const roleIds = [];
           for (let index = 0; index < selectRoles.length; index++) {
@@ -46,8 +48,28 @@ const rolePlay = async (
             })
             .then((res) => {
               // use last msg id to add reaction
-              sqlite3.verbose();
-              const db = new sqlite3.Database('./data/role.db');
+              console.info('after post message');
+              console.info(__dirname);
+              console.info(res);
+              if (res.status === 200) {
+                const msg: Message = new Message();
+                msg.event_type = 'MESSAGE_CREATE';
+                msg.event_id = `MESSAGE_CREATE_${res.data.id}`;
+                msg.seq = 0;
+                msg.mid = res.data.id;
+                msg.guild_id = res.data.guild_id;
+                msg.channel_id = res.data.channel_id;
+                msg.content = res.data.content;
+                msg.timestamp = res.data.timestamp;
+                msg.author_id = res.data.author.id;
+                msg.author_username = res.data.author.username;
+                msg.author_avatar = res.data.author.avatar;
+                msg.seq_in_channel = res.data.seq_in_channel;
+                msg.author_bot = res.data.author.bot;
+                msg.last_msg_id = data.msg.id;
+                msg.msg_label = 'secelet_role';
+                messageRepository.save(msg);
+              }
               console.info(res.data);
             })
             .catch(console.error);
@@ -78,6 +100,12 @@ const rolePlay = async (
       channelID,
       messageID,
     );
+    // query from db
+    const rs = await messageRepository.findOne({
+      where: {
+        mid: messageID,
+      },
+    });
     // console.info(targetMsg);
     if (targetMsg.message.content.includes('选择你的角色吧')) {
       const { data: guildMember } = await client.guildApi.guildMember(
@@ -119,7 +147,7 @@ const rolePlay = async (
               client.messageApi
                 .postMessage(channelID, {
                   content: `${nick} 你已经是 ${role.name} 了<emoji:271>`,
-                  msg_id: messageID,
+                  msg_id: rs.last_msg_id,
                 })
                 .catch(console.error);
             } else {
@@ -127,7 +155,7 @@ const rolePlay = async (
               await client.messageApi
                 .postMessage(channelID, {
                   content: `${nick} 你选择了 ${role.name}<emoji:179>`,
-                  msg_id: messageID,
+                  msg_id: rs.last_msg_id,
                 })
                 .catch(console.error);
               client.memberApi.memberAddRole(
