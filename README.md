@@ -2,6 +2,9 @@
 
 莉莉菈 为您服务。
 
+# TODO
+- 莉莉菈人格构建
+
 ## 使用技术
 使用typescript编写的nodejs项目。
 - [nestjs](https://github.com/nestjs/nest)
