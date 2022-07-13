@@ -40,8 +40,8 @@ const queryFish = async (
         content: reply,
         msg_id: data.msg.id,
       });
-      return true;
     }
   }
+  return spread;
 };
 export default queryFish;

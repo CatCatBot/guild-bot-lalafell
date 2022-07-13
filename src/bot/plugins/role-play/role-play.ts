@@ -171,5 +171,6 @@ const rolePlay = async (
     }
     return true;
   }
+  return spread;
 };
 export default rolePlay;

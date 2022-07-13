@@ -1,0 +1,20 @@
+diff --git a/node_modules/@nlpjs/nlp/src/nlp.js b/node_modules/@nlpjs/nlp/src/nlp.js
+index a68bd5a..19755fa 100644
+--- a/node_modules/@nlpjs/nlp/src/nlp.js
++++ b/node_modules/@nlpjs/nlp/src/nlp.js
+@@ -727,13 +727,13 @@ class Nlp extends Clonable {
+   async save(srcFileName, minified = false) {
+     const fs = this.container.get('fs');
+     const fileName = srcFileName || 'model.nlp';
+-    await fs.writeFile(fileName, this.export(minified));
++    await fs.writeFile(fileName, this.export(minified), 'utf8', (err) => { if (err) { throw err; } });
+   }
+ 
+   async load(srcFileName) {
+     const fs = this.container.get('fs');
+     const fileName = srcFileName || 'model.nlp';
+-    const data = await fs.readFile(fileName);
++    const data = await fs.readFile(fileName, 'utf8', (err) => { if (err) { throw err; } });
+     if (data) {
+       this.import(data);
+       return true;
