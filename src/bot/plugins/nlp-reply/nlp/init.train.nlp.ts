@@ -8,34 +8,38 @@ const initTraning = async (isTraning: boolean) => {
   if (fs.existsSync('model.nlp')) {
     console.log('load nlp data from model.nlp');
     if (isTraning) {
-      // try to get the data from db
-      const documents = await LalafellDataSource.getRepository(Words).find({
-        where: {
-          type: 'document',
-        },
-      });
-      documents.forEach((document) => {
-        manager.addDocument(
-          document.locale,
-          document.utterance,
-          document.intent,
-        );
-      });
-      const answers = await LalafellDataSource.getRepository(Words).find({
-        where: {
-          type: 'answer',
-        },
-      });
-      answers.forEach((answer) => {
-        manager.addAnswer(answer.locale, answer.intent, answer.answer);
-      });
-      await manager.train();
-      manager.save();
+      await trainFromDB(manager);
     } else {
       await manager.load('model.nlp');
     }
     return manager;
   }
+  await trainFromDB(manager);
+  // await trainFromMerge(manager);
+  return manager;
+};
+export default initTraning;
+async function trainFromDB(manager: any) {
+  const documents = await LalafellDataSource.getRepository(Words).find({
+    where: {
+      type: 'document',
+    },
+  });
+  documents.forEach((document) => {
+    manager.addDocument(document.locale, document.utterance, document.intent);
+  });
+  const answers = await LalafellDataSource.getRepository(Words).find({
+    where: {
+      type: 'answer',
+    },
+  });
+  answers.forEach((answer) => {
+    manager.addAnswer(answer.locale, answer.intent, answer.answer);
+  });
+  await manager.train();
+  manager.save();
+}
+async function trainFromMerge(manager: any) {
   manager.addDocument('zh', '再见', 'greetings.bye');
   manager.addDocument('zh', '一路小心', 'greetings.bye');
   manager.addDocument('zh', '好 拜拜', 'greetings.bye');
@@ -61,6 +65,4 @@ const initTraning = async (isTraning: boolean) => {
   );
   await manager.train();
   manager.save();
-  return manager;
-};
-export default initTraning;
+}
