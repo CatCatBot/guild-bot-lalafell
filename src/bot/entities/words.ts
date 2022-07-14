@@ -9,17 +9,17 @@ export class Words {
   })
   locale: string;
   @Column({
-    default: undefined,
+    default: '',
   })
   utterance: string;
   @Column({
-    default: undefined,
+    default: '',
   })
   answer: string;
   @Column()
   intent: string;
   @Column({
-    default: undefined,
+    default: '',
   })
   opts: string;
   @Column({
