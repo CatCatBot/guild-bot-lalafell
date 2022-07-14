@@ -57,15 +57,24 @@ const nlpReply = async (
       } else if (content?.includes('wls')) {
         // list all words
         const words = await wordsRepository.find();
-        const content = words
-          .map((word) => {
-            return `${word.utterance}${word.answer} -> ${word.intent} @${word.type}`;
-          })
-          .join('\n');
-        client.messageApi.postMessage(channelID, {
-          content,
-          msg_id: data.msg.id,
-        });
+        let msg_conetent = '';
+        for (let i = 0; i < words.length; i++) {
+          msg_conetent += `${words[i].type}: ${words[i].utterance} -> ${words[
+            i
+          ].intent.replace('.', '@')}\n`;
+          if (i % 5 === 0) {
+            console.info(msg_conetent);
+            await client.messageApi
+              .postMessage(channelID, {
+                content: msg_conetent,
+                msg_id: data.msg.id,
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            msg_conetent = '';
+          }
+        }
       } else {
         const manager = await initTraning(false);
         const response = await manager.process('zh', content.split(' ')[1]);
