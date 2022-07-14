@@ -54,6 +54,18 @@ const nlpReply = async (
           content: '重新训练NLP完成！',
           msg_id: data.msg.id,
         });
+      } else if (content?.includes('wls')) {
+        // list all words
+        const words = await wordsRepository.find();
+        const content = words
+          .map((word) => {
+            return `${word.utterance}${word.answer} -> ${word.intent} @${word.type}`;
+          })
+          .join('\n');
+        client.messageApi.postMessage(channelID, {
+          content,
+          msg_id: data.msg.id,
+        });
       } else {
         const manager = await initTraning(false);
         const response = await manager.process('zh', content.split(' ')[1]);
