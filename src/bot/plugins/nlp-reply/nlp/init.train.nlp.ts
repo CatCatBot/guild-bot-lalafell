@@ -27,7 +27,7 @@ const initTraning = async (isTraning: boolean) => {
         },
       });
       answers.forEach((answer) => {
-        manager.addAnswer(answer.intent, answer.answer);
+        manager.addAnswer(answer.locale, answer.intent, answer.answer);
       });
       await manager.train();
       manager.save();
