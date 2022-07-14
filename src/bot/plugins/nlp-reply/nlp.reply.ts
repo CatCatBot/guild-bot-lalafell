@@ -45,12 +45,12 @@ const nlpReply = async (
         //todo add to db
       } else if (content?.includes('train')) {
         // retrain nlp
-        client.messageApi.postMessage(channelID, {
+        await client.messageApi.postMessage(channelID, {
           content: '正在重新训练NLP...',
           msg_id: data.msg.id,
         });
         await initTraning(true);
-        client.messageApi.postMessage(channelID, {
+        await client.messageApi.postMessage(channelID, {
           content: '重新训练NLP完成！',
           msg_id: data.msg.id,
         });

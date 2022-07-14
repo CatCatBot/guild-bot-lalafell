@@ -7,7 +7,6 @@ const initTraning = async (isTraning: boolean) => {
   const manager = new NlpManager({ languages: ['zh'], forceNER: true });
   if (fs.existsSync('model.nlp')) {
     console.log('load nlp data from model.nlp');
-    await manager.load('model.nlp');
     if (isTraning) {
       // try to get the data from db
       const documents = await LalafellDataSource.getRepository(Words).find({
@@ -32,6 +31,8 @@ const initTraning = async (isTraning: boolean) => {
       });
       await manager.train();
       manager.save();
+    } else {
+      await manager.load('model.nlp');
     }
     return manager;
   }
