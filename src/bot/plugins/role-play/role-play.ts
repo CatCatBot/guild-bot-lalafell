@@ -73,6 +73,7 @@ const rolePlay = async (
               console.info(res.data);
             })
             .catch(console.error);
+          spread = false; // msg will not be spreaded to other plugins
         }
       } catch (e) {
         console.error(e);

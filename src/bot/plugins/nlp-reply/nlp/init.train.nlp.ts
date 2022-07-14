@@ -1,13 +1,41 @@
+import { NlpManager } from 'node-nlp';
 import * as fs from 'fs';
-import { Nlp } from '@nlpjs/nlp';
+import { LalafellDataSource } from 'src/bot/config/dataSource';
+import { Words } from 'src/bot/entities/words';
 
-const initTraning = async (manager: Nlp) => {
-  if (fs.existsSync('./model.nlp')) {
-    console.log('load nlp data from ./model.nlp');
-    await manager.load('./model.nlp');
-    return;
+const initTraning = async (isTraning: boolean) => {
+  const manager = new NlpManager({ languages: ['zh'], forceNER: true });
+  if (fs.existsSync('model.nlp')) {
+    console.log('load nlp data from model.nlp');
+    await manager.load('model.nlp');
+    if (isTraning) {
+      // try to get the data from db
+      const documents = await LalafellDataSource.getRepository(Words).find({
+        where: {
+          type: 'document',
+        },
+      });
+      documents.forEach((document) => {
+        manager.addDocument(
+          document.locale,
+          document.utterance,
+          document.intent,
+        );
+      });
+      const answers = await LalafellDataSource.getRepository(Words).find({
+        where: {
+          type: 'answer',
+        },
+      });
+      answers.forEach((answer) => {
+        manager.addAnswer(answer.intent, answer.answer);
+      });
+      await manager.train();
+      manager.save();
+    }
+    return manager;
   }
-  manager.addDocument('zh', '再见', '问候.再见');
+  manager.addDocument('zh', '再见', 'greetings.bye');
   manager.addDocument('zh', '一路小心', 'greetings.bye');
   manager.addDocument('zh', '好 拜拜', 'greetings.bye');
   manager.addDocument('zh', '我先走了', 'greetings.bye');
@@ -20,8 +48,8 @@ const initTraning = async (manager: Nlp) => {
   manager.addDocument('zh', '好久不见', 'greetings.hello');
 
   // Train also the NLG
-  manager.addAnswer('zh', '问候.再见', '回见！');
-  manager.addAnswer('zh', '问候.再见', '后会有期！');
+  manager.addAnswer('zh', 'greetings.bye', '回见！');
+  manager.addAnswer('zh', 'greetings.bye', '后会有期！');
   manager.addAnswer('zh', 'greetings.hello', '你也好！');
   manager.addAnswer('zh', 'greetings.hello', '早安！');
   manager.addAnswer('zh', 'greetings.who', '莉莉菈！');
@@ -30,6 +58,8 @@ const initTraning = async (manager: Nlp) => {
     'greetings.who',
     '朕乃乌尔达哈第十七代国王,娜娜莫·乌尔娜莫.',
   );
+  await manager.train();
   manager.save();
+  return manager;
 };
 export default initTraning;
