@@ -63,8 +63,6 @@ async function searchAndSave(content: string): Promise<string> {
   const pic = await axios.get(url, {
     responseType: 'arraybuffer',
   });
-  fs.writeFileSync(
-    'file://' + __dirname + '/pixiv/' + pixivID + '.jpg',
-    pic.data,
-  );
+  fs.writeFileSync(__dirname + '/' + pixivID + '.jpg', pic.data);
+  return __dirname + '/' + pixivID + '.jpg';
 }
