@@ -1,3 +1,4 @@
+import catPic from '../plugins/cat-pic/cat.pic';
 import queryFish from '../plugins/ffxiv-fish/ffxiv.fish';
 import helpText from '../plugins/help-text/help.text';
 import nlpReply from '../plugins/nlp-reply/nlp.reply';
@@ -10,6 +11,7 @@ const loadPlugins = async (
   console.info('loading plugins...');
   let spread = true;
   spread = await helpText(client, data, spread);
+  spread = await catPic(client, data, spread);
   spread = await queryFish(client, data, spread);
   spread = await rolePlay(client, data, spread);
   await nlpReply(client, data, spread);

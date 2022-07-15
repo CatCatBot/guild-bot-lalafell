@@ -14,4 +14,8 @@ const baseConfig = {
   robotId: secret.robotId,
   imgDir: 'c://github//',
 };
-export { lalafellConfig, baseConfig };
+
+const pixivConfig = {
+  freshToken: secret.freshToken,
+};
+export { lalafellConfig, baseConfig, pixivConfig };

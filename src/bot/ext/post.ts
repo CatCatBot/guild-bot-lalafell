@@ -6,7 +6,7 @@ import * as FormData from 'form-data';
 import { secret } from '../config/s.config';
 import { baseConfig } from '../config/lalafell.config';
 export async function postImage(msg: IMessage, picName: string) {
-  picName = baseConfig.imgDir + picName;
+  picName = picName;
   console.debug(`uploading ${picName}`);
   const picData = fs.createReadStream(picName);
   const formdata = new FormData();
