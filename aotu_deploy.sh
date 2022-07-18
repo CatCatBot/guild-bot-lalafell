@@ -11,6 +11,7 @@ npm run build
 
 #拷贝文件
 cp -R src/bot/utils/nsfw/model dist/bot/utils/nsfw/model
+mkdir dist/bot/plugins/ffxiv-fish/data
 cp src/bot/plugins/ffxiv-fish/data/Item.json dist/bot/plugins/ffxiv-fish/data/Item.json
 
 #启动服务
