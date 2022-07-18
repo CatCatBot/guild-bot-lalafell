@@ -25,14 +25,19 @@ const catPic = async (
         } catch (error) {
           console.error(error);
         }
-        const nsfw_result: any = await nsfw_detect(img);
-        console.log(nsfw_result);
-        if (isSFW(nsfw_result)) {
-          postImage(data.msg, img);
-        } else {
-          console.log('NSFW detected');
-        }
-        console.log(nsfw_result);
+        nsfw_detect(img)
+          .then((nsfw_result: any) => {
+            console.log(nsfw_result);
+            if (isSFW(nsfw_result)) {
+              postImage(data.msg, img);
+            } else {
+              console.log('NSFW detected');
+            }
+            console.log(nsfw_result);
+          })
+          .catch((error: any) => {
+            console.error(error);
+          });
         spread = false; // msg will not be spreaded to other plugins
       }
     }

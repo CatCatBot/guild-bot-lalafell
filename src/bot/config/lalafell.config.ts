@@ -1,5 +1,5 @@
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot';
-import { secret } from './s.config';
+import { secret, nomalConfig } from './s.config';
 
 const lalafellConfig = {
   appID: secret.appID,
@@ -13,6 +13,7 @@ const lalafellConfig = {
 const baseConfig = {
   robotId: secret.robotId,
   imgDir: 'c://github//',
+  datasetDir: nomalConfig.datasetDir,
 };
 
 const pixivConfig = {
