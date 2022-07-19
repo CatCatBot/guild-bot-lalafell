@@ -1,10 +1,13 @@
 import axios from 'axios';
 import * as fs from 'fs';
+import { LalafellDataSource } from 'src/bot/config/dataSource';
 import { baseConfig, pixivConfig } from 'src/bot/config/lalafell.config';
+import { ChatImage } from 'src/bot/entities/chat.image';
 import { posteDirectImage, postImage } from 'src/bot/ext/post';
 import nsfw_detect from 'src/bot/utils/nsfw/nsfw';
 import service from './service';
 
+const chatImageRepository = LalafellDataSource.getRepository(ChatImage);
 const catPic = async (
   client: any,
   data: { eventType: string; msg: any },
@@ -40,6 +43,17 @@ const catPic = async (
           });
         spread = false; // msg will not be spreaded to other plugins
       }
+      if (content?.includes('拉拉肥')) {
+        const max = await chatImageRepository.count();
+        const random =  Math.floor(Math.random() * (max + 1))
+        const imgRecord = await chatImageRepository.findOne({
+          where: {
+            id: random,
+          },
+        });
+        const img = baseConfig.datasetDir+imgRecord.filename;
+        postImage(data.msg, img);
+      }
     }
   }
   if (data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
@@ -69,6 +83,17 @@ const catPic = async (
             console.error(error);
           });
         spread = false; // msg will not be spreaded to other plugins
+      }
+      if (content?.includes('拉拉肥')) {
+        const max = await chatImageRepository.count();
+        const random =  Math.floor(Math.random() * (max + 1))
+        const imgRecord = await chatImageRepository.findOne({
+          where: {
+            id: random,
+          },
+        });
+        const img = baseConfig.datasetDir+imgRecord.filename;
+        posteDirectImage(data.msg, img);
       }
   }
   return spread;
