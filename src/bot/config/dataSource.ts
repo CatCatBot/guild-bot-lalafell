@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { ChatImage } from '../entities/chat.image';
 import { Message } from '../entities/message';
 import { Words } from '../entities/words';
 
@@ -6,7 +7,7 @@ export const LalafellDataSource = new DataSource({
   type: 'sqlite',
   database: './lalafell.db',
   synchronize: true,
-  entities: [Message, Words],
+  entities: [Message, Words, ChatImage],
 });
 
 LalafellDataSource.initialize()
