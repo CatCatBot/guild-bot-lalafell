@@ -10,7 +10,7 @@ const queryFish = async (
     const content = data.msg?.content;
     if (content?.includes('道具检索')) {
       spread = false; // msg will not be spreaded to other plugins
-      const item = await require('./data/item.json');
+      const item = await require('./data/Item.json');
       let fishName = content.split(' ')[1];
       let reply = '';
       let exist = false;
