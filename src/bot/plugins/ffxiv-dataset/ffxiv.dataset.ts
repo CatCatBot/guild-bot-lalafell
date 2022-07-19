@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as fs from 'fs';
 import { baseConfig, pixivConfig } from 'src/bot/config/lalafell.config';
 import { ChatImage } from 'src/bot/entities/chat.image';
+import { postDirectMessage } from 'src/bot/ext/post';
 
 const ffxivDataset = async (
   client: any,
@@ -9,14 +10,13 @@ const ffxivDataset = async (
   spread: boolean,
 ) => {
   console.log('loading plugin: ffxiv dataset...');
-  if (data.eventType === 'MESSAGE_CREATE' && spread) {
+  if (data.eventType === 'MESSAGE_CREATE' && spread || data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
     console.log(data);
     const channelID = data.msg.channel_id;
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
     const attachments = data.msg?.attachments;
-    console.log(data.msg.attachments);
-    if (content?.includes(`<@!${baseConfig.robotId}>`)) {
+    if (content?.includes(`<@!${baseConfig.robotId}>`) || data.eventType === 'DIRECT_MESSAGE_CREATE') {
       if (content?.includes('dataset')) {
         // postImage(data.msg, 'help.png');
         const params = content.split(' ');
@@ -31,7 +31,12 @@ const ffxivDataset = async (
           chatImage.url = attachment.url;
           chatImage.height = attachment.height;
           chatImage.width = attachment.width;
-          chatImage.type =  data.msg.content.split(' ')[2];
+          if(data.msg.direct_message) {
+            chatImage.type =  data.msg.content.split(' ')[1];
+          } else {
+            chatImage.type =  data.msg.content.split(' ')[2];
+          }
+          
           // save to file
           const pic = await axios.get('https://'+chatImage.url, {
             responseType: 'arraybuffer',
@@ -41,10 +46,17 @@ const ffxivDataset = async (
           }
           fs.writeFileSync(baseConfig.datasetDir +chatImage.type + '/' + chatImage.filename, pic.data);
         }
-        client.messageApi.postMessage(channelID, {
-          content: '保存成功',
-          msg_id: data.msg.id,
-        });
+        if(data.msg.direct_message){
+          postDirectMessage(guildID,{
+            content: '保存成功',
+            msg_id: data.msg.id,
+          })
+        }else {
+          client.messageApi.postMessage(channelID, {
+            content: '保存成功',
+            msg_id: data.msg.id,
+          });
+        }
         spread = false; // msg will not be spreaded to other plugins
       }
     }

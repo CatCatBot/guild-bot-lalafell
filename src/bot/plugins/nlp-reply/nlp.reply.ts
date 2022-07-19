@@ -2,6 +2,7 @@ import { baseConfig } from 'src/bot/config/lalafell.config';
 import { LalafellDataSource } from 'src/bot/config/dataSource';
 import { Words } from 'src/bot/entities/words';
 import initTraning from './nlp/init.train.nlp';
+import { postDirectMessage } from 'src/bot/ext/post';
 
 const wordsRepository = LalafellDataSource.getRepository(Words);
 const nlpReply = async (
@@ -87,6 +88,16 @@ const nlpReply = async (
       }
       spread = false; // msg will not be spreaded to other plugins
     }
+  }
+  if (data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
+    const manager = await initTraning(false);
+        const response = await manager.process('zh', data.msg.content);
+        console.log(response);
+        await postDirectMessage(data.msg.guild_id, {
+          content:
+            response.answer === undefined ? '莉莉菈不知道哦' : response.answer,
+          msg_id: data.msg.id,
+        });
   }
   return spread;
 };

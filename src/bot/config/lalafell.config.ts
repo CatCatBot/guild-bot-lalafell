@@ -7,6 +7,7 @@ const lalafellConfig = {
   intents: [
     AvailableIntentsEventsEnum.GUILD_MESSAGES,
     AvailableIntentsEventsEnum.GUILD_MESSAGE_REACTIONS,
+    AvailableIntentsEventsEnum.DIRECT_MESSAGE,
   ],
   sandbox: false, // optional, default false
 };
