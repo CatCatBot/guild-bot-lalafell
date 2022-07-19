@@ -1,9 +1,11 @@
 import axios from 'axios';
 import * as fs from 'fs';
+import { LalafellDataSource } from 'src/bot/config/dataSource';
 import { baseConfig, pixivConfig } from 'src/bot/config/lalafell.config';
 import { ChatImage } from 'src/bot/entities/chat.image';
 import { postDirectMessage } from 'src/bot/ext/post';
 
+const chatImageRepository = LalafellDataSource.getRepository(ChatImage);
 const ffxivDataset = async (
   client: any,
   data: { eventType: string; msg: any },
@@ -36,7 +38,8 @@ const ffxivDataset = async (
           } else {
             chatImage.type =  data.msg.content.split(' ')[2];
           }
-          
+          // save to db
+          chatImageRepository.save(chatImage);
           // save to file
           const pic = await axios.get('https://'+chatImage.url, {
             responseType: 'arraybuffer',

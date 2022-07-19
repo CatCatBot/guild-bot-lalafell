@@ -22,6 +22,14 @@ export class ChatImage {
     default: '',
   })
   type: string;
+  @Column({
+    default: '',
+  })
+  source_url: string;
+  @Column({
+    default: '',
+  })
+  label: string;
   @CreateDateColumn()
   createdAt: Date;
 }
