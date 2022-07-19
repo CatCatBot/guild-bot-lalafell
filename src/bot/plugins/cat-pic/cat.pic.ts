@@ -3,7 +3,11 @@ import * as fs from 'fs';
 import { LalafellDataSource } from 'src/bot/config/dataSource';
 import { baseConfig, pixivConfig } from 'src/bot/config/lalafell.config';
 import { ChatImage } from 'src/bot/entities/chat.image';
-import { posteDirectImage, postImage } from 'src/bot/ext/post';
+import {
+  postDirectMessage,
+  posteDirectImage,
+  postImage,
+} from 'src/bot/ext/post';
 import nsfw_detect from 'src/bot/utils/nsfw/nsfw';
 import service from './service';
 
@@ -44,6 +48,11 @@ const catPic = async (
         spread = false; // msg will not be spreaded to other plugins
       }
       if (content?.includes('拉拉肥')) {
+        client.messageApi.postMessage(channelID, {
+          content: '拉拉肥',
+          msg_id: data.msg.id,
+        });
+        spread = false; // msg will not be spreaded to other plugins
         const max = await chatImageRepository.count();
         const random = Math.floor(Math.random() * (max + 1));
         const imgRecord = await chatImageRepository.findOne({
@@ -89,6 +98,11 @@ const catPic = async (
       spread = false; // msg will not be spreaded to other plugins
     }
     if (content?.includes('拉拉肥')) {
+      postDirectMessage(data.msg.guild_id, {
+        content: '正在搜索... 请稍后',
+        msg_id: data.msg.id,
+      });
+      spread = false; // msg will not be spreaded to other plugins
       const max = await chatImageRepository.count();
       const random = Math.floor(Math.random() * (max + 1));
       const imgRecord = await chatImageRepository.findOne({
