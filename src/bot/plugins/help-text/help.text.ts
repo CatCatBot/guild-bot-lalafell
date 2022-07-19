@@ -22,7 +22,7 @@ const helpText = async (
             + '👻@bot wls ->list words from db \n'
             + '🕐 @bot dc utterance intent -> 可以添加自定义意图\n'
             + '🎗️ @bot aws intent answer -> 可以添加自定义回答 \n'
-            + '🪐 @bot train -> 可以重新训练NLP'
+            + '🪐 @bot train -> 可以重新训练NLP\n'
             + '📔 @bot pic 搜索名称 -> 可以搜索Pixiv图片\n'
             + '📗 @bot dataset 分类名称 [图片,图片, ...] -> 可以添加自定义分类数据集\n',
           msg_id: data.msg.id,
