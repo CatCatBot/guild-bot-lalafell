@@ -8,8 +8,16 @@ QQ频道: 拉拉肥; 拉拉菲尔（测试）
 
 QQ群：319833969
 
-莉莉菈 为您服务。
-
+您好，莉莉菈为您服务！
+- 📕@bot help||帮助 可以查看帮助
+- 🐟 道具检索 鱼名 -> 可以查询鱼类
+- 👴 @bot /role -> 可以获取身份组
+- 👻@bot wls ->list words from db 
+- 🕐 @bot dc utterance intent -> 可以添加自定义意图
+- 🎗️ @bot aws intent answer -> 可以添加自定义回答 
+- 🪐 @bot train -> 可以重新训练NLP
+- 📔 @bot pic 搜索名称 -> 可以搜索Pixiv图片
+- 📗 @bot dataset 分类名称 [图片,图片, ...] -> 可以添加自定义分类数据集
 # TODO
 - 莉莉菈人格构建
 
