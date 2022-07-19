@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as fs from 'fs';
 import { baseConfig, pixivConfig } from 'src/bot/config/lalafell.config';
-import { postImage } from 'src/bot/ext/post';
+import { posteDirectImage, postImage } from 'src/bot/ext/post';
 import nsfw_detect from 'src/bot/utils/nsfw/nsfw';
 import service from './service';
 
@@ -21,7 +21,7 @@ const catPic = async (
         const params = content.split(' ');
         let img = 'C://Users//woshi//Pictures//barbara.jpg';
         try {
-          img = await searchAndSave(content);
+          img = await searchAndSave(content.split(' ')[2]);
         } catch (error) {
           console.error(error);
         }
@@ -42,6 +42,35 @@ const catPic = async (
       }
     }
   }
+  if (data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
+    console.log(data);
+    const channelID = data.msg.channel_id;
+    const guildID = data.msg.guild_id;
+    const content = data.msg?.content;
+      if (content?.includes('pic')) {
+        // postImage(data.msg, 'help.png');
+        let img = '';
+        try {
+          img = await searchAndSave(content.split(' ')[1]);
+        } catch (error) {
+          console.error(error);
+        }
+        nsfw_detect(img)
+          .then((nsfw_result: any) => {
+            console.log(nsfw_result);
+            if (data.msg.author.username === '喵喵酱大胜利'?isMeowMeowSFW(nsfw_result):isSFW(nsfw_result)) {
+              posteDirectImage(data.msg, img);
+            } else {
+              console.log('NSFW detected');
+            }
+            console.log(nsfw_result);
+          })
+          .catch((error: any) => {
+            console.error(error);
+          });
+        spread = false; // msg will not be spreaded to other plugins
+      }
+  }
   return spread;
 };
 export default catPic;
@@ -52,10 +81,17 @@ function isSFW(nsfw_result: any) {
     Number.parseFloat(nsfw_result.Sexy) < 0.5
   );
 }
-async function searchAndSave(content: string): Promise<string> {
+function isMeowMeowSFW(nsfw_result: any) {
+  return (
+    Number.parseFloat(nsfw_result.Hentai) < 0.8 &&
+    Number.parseFloat(nsfw_result.Porn) < 0.8 &&
+    Number.parseFloat(nsfw_result.Sexy) < 0.8
+  );
+}
+async function searchAndSave(key: string): Promise<string> {
   let url = 'https://pixiv.cat/';
   // https://app-api.pixiv.net/v1/search/illust?word=1
-  const key = content.split(' ')[2];
+  // const key = content.split(' ')[2];
   const bearer = await service.getBearer(pixivConfig.freshToken);
   console.info('b:' + bearer + ' ?');
   const pixivID = await service.getSearch(encodeURI(key), bearer);

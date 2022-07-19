@@ -28,7 +28,29 @@ export async function postImage(msg: IMessage, picName: string) {
       console.error(error);
     });
 }
-
+export async function posteDirectImage(msg: IMessage, picName: string) {
+  picName = picName;
+  console.debug(`uploading ${picName}`);
+  const picData = fs.createReadStream(picName);
+  const formdata = new FormData();
+  formdata.append('msg_id', msg.id);
+  formdata.append('file_image', picData);
+  await fetch(`https://api.sgroup.qq.com/dms/${msg.guild_id}/messages`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': formdata.getHeaders()['content-type'],
+      Authorization: `Bot ${secret.appID}.${secret.token}`,
+    },
+    body: formdata,
+  })
+    .then(async (res) => {
+      const body: any = await res.json();
+      if (body.code) throw new Error(body);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 // export async function createThread(thred:Thread) {
 // }
 
