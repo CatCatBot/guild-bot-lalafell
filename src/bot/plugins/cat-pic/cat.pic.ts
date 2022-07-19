@@ -45,13 +45,13 @@ const catPic = async (
       }
       if (content?.includes('拉拉肥')) {
         const max = await chatImageRepository.count();
-        const random =  Math.floor(Math.random() * (max + 1))
+        const random = Math.floor(Math.random() * (max + 1));
         const imgRecord = await chatImageRepository.findOne({
           where: {
             id: random,
           },
         });
-        const img = baseConfig.datasetDir+imgRecord.filename;
+        const img = baseConfig.datasetDir + '拉拉肥/' + imgRecord.filename;
         postImage(data.msg, img);
       }
     }
@@ -61,40 +61,44 @@ const catPic = async (
     const channelID = data.msg.channel_id;
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
-      if (content?.includes('pic')) {
-        // postImage(data.msg, 'help.png');
-        let img = '';
-        try {
-          img = await searchAndSave(content.split(' ')[1]);
-        } catch (error) {
+    if (content?.includes('pic')) {
+      // postImage(data.msg, 'help.png');
+      let img = '';
+      try {
+        img = await searchAndSave(content.split(' ')[1]);
+      } catch (error) {
+        console.error(error);
+      }
+      nsfw_detect(img)
+        .then((nsfw_result: any) => {
+          console.log(nsfw_result);
+          if (
+            data.msg.author.username === '喵喵酱大胜利'
+              ? isMeowMeowSFW(nsfw_result)
+              : isSFW(nsfw_result)
+          ) {
+            posteDirectImage(data.msg, img);
+          } else {
+            console.log('NSFW detected');
+          }
+          console.log(nsfw_result);
+        })
+        .catch((error: any) => {
           console.error(error);
-        }
-        nsfw_detect(img)
-          .then((nsfw_result: any) => {
-            console.log(nsfw_result);
-            if (data.msg.author.username === '喵喵酱大胜利'?isMeowMeowSFW(nsfw_result):isSFW(nsfw_result)) {
-              posteDirectImage(data.msg, img);
-            } else {
-              console.log('NSFW detected');
-            }
-            console.log(nsfw_result);
-          })
-          .catch((error: any) => {
-            console.error(error);
-          });
-        spread = false; // msg will not be spreaded to other plugins
-      }
-      if (content?.includes('拉拉肥')) {
-        const max = await chatImageRepository.count();
-        const random =  Math.floor(Math.random() * (max + 1))
-        const imgRecord = await chatImageRepository.findOne({
-          where: {
-            id: random,
-          },
         });
-        const img = baseConfig.datasetDir+imgRecord.filename;
-        posteDirectImage(data.msg, img);
-      }
+      spread = false; // msg will not be spreaded to other plugins
+    }
+    if (content?.includes('拉拉肥')) {
+      const max = await chatImageRepository.count();
+      const random = Math.floor(Math.random() * (max + 1));
+      const imgRecord = await chatImageRepository.findOne({
+        where: {
+          id: random,
+        },
+      });
+      const img = baseConfig.datasetDir + '拉拉肥/' + imgRecord.filename;
+      posteDirectImage(data.msg, img);
+    }
   }
   return spread;
 };
