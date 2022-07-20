@@ -56,7 +56,7 @@ const catPic = async (
         switch (raceType) {
           case '拉拉肥':
             raceType = '拉拉肥';
-            random = Math.floor(Math.random() * (max + 1));
+            random = Math.floor(Math.random() * (11570 + 1));
             break;
           case '猫猫':
             raceType = 'Miqote';
@@ -64,7 +64,7 @@ const catPic = async (
             break;
           default:
             raceType = '拉拉肥';  
-            random = Math.floor(Math.random() * (max + 1));
+            random = Math.floor(Math.random() * (11570 + 1));
         }
         client.messageApi.postMessage(channelID, {
           content: '正在搜索... 请稍后',
@@ -132,7 +132,7 @@ const catPic = async (
       switch (raceType) {
         case '拉拉肥':
           raceType = '拉拉肥';
-          random = Math.floor(Math.random() * (max + 1));
+          random = Math.floor(Math.random() * (11570 + 1));
           break;
         case '猫猫':
           raceType = 'Miqote';
@@ -140,7 +140,7 @@ const catPic = async (
           break;
         default:
           raceType = '拉拉肥';  
-          random = Math.floor(Math.random() * (max + 1));
+          random = Math.floor(Math.random() * (11570 + 1));
       }
       console.log(raceType + '->' + random);
       postDirectMessage(data.msg.guild_id, {
