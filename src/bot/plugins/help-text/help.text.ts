@@ -17,7 +17,7 @@ const helpText = async (
           content:
             '您好，莉莉菈为您服务！\n' +
             '📕 @bot help||帮助 可以查看帮助\n' +
-            '♥ @bot 随机拉拉肥 随机猫猫 || 私信bot 随机拉拉肥 随机猫猫  可以获取随机图\n' +
+            '♥ @bot 随机拉拉肥 随机猫猫 可以获取随机图 (图片来自eorzeacollection)\n' +
             '🐟 道具检索 鱼名 -> 可以查询鱼类\n' +
             '👴 @bot /role -> 可以获取身份组\n' +
             '🕐 @bot dc utterance intent -> 可以添加自定义意图\n' +
