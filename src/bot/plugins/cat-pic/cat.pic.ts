@@ -70,6 +70,7 @@ const catPic = async (
           content: '正在搜索... 请稍后',
           msg_id: data.msg.id,
         });
+        console.log(raceType + '->' + random);
         const imgRecord = await chatImageRepository.findOne({
           where: {
             id: random,
@@ -141,7 +142,7 @@ const catPic = async (
           raceType = '拉拉肥';  
           random = Math.floor(Math.random() * (max + 1));
       }
-      
+      console.log(raceType + '->' + random);
       postDirectMessage(data.msg.guild_id, {
         content: '正在搜索... 请稍后',
         msg_id: data.msg.id,
