@@ -51,23 +51,25 @@ const catPic = async (
       if (randomContent?.includes('随机')) {
         spread = false; // msg will not be spreaded to other plugins
         let raceType = randomContent.replace('随机', '').trim();
+        const max = await chatImageRepository.count();
+        let random = 0;
         switch (raceType) {
           case '拉拉肥':
             raceType = '拉拉肥';
+            random = Math.floor(Math.random() * (max + 1));
             break;
           case '猫猫':
             raceType = 'Miqote';
+            random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
             break;
           default:
             raceType = '拉拉肥';  
+            random = Math.floor(Math.random() * (max + 1));
         }
         client.messageApi.postMessage(channelID, {
           content: '正在搜索... 请稍后',
           msg_id: data.msg.id,
         });
-        const max = await chatImageRepository.count();
-        // fixme: code below is not soft to use
-        const random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
         const imgRecord = await chatImageRepository.findOne({
           where: {
             id: random,
@@ -123,25 +125,27 @@ const catPic = async (
     if (content?.includes('随机')) {
       spread = false; // msg will not be spreaded to other plugins
       let raceType = content.replace('随机', '').trim();
+      const max = await chatImageRepository.count();
+      // fixme: code below is not soft to use
+      let random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
       switch (raceType) {
         case '拉拉肥':
           raceType = '拉拉肥';
+          random = Math.floor(Math.random() * (max + 1));
           break;
         case '猫猫':
           raceType = 'Miqote';
+          random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
           break;
         default:
           raceType = '拉拉肥';  
+          random = Math.floor(Math.random() * (max + 1));
       }
       
       postDirectMessage(data.msg.guild_id, {
         content: '正在搜索... 请稍后',
         msg_id: data.msg.id,
       });
-      spread = false; // msg will not be spreaded to other plugins
-      const max = await chatImageRepository.count();
-      // fixme: code below is not soft to use
-      const random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
       const imgRecord = await chatImageRepository.findOne({
         where: {
           id: random,
