@@ -49,6 +49,7 @@ const catPic = async (
       }
       let randomContent = content.split(' ')[1];
       if (randomContent?.includes('随机')) {
+        spread = false; // msg will not be spreaded to other plugins
         let raceType = randomContent.replace('随机', '').trim();
         switch (raceType) {
           case '拉拉肥':
@@ -64,7 +65,6 @@ const catPic = async (
           content: '正在搜索... 请稍后',
           msg_id: data.msg.id,
         });
-        spread = false; // msg will not be spreaded to other plugins
         const max = await chatImageRepository.count();
         // fixme: code below is not soft to use
         const random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
@@ -121,6 +121,7 @@ const catPic = async (
       spread = false; // msg will not be spreaded to other plugins
     }
     if (content?.includes('随机')) {
+      spread = false; // msg will not be spreaded to other plugins
       let raceType = content.replace('随机', '').trim();
       switch (raceType) {
         case '拉拉肥':
