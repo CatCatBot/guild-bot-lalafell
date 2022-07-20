@@ -47,8 +47,9 @@ const catPic = async (
           });
         spread = false; // msg will not be spreaded to other plugins
       }
-      if (content?.includes('随机')) {
-        let raceType = content.replace('随机', '').trim();
+      let randomContent = content.split(' ')[1];
+      if (randomContent?.includes('随机')) {
+        let raceType = randomContent.replace('随机', '').trim();
         switch (raceType) {
           case '拉拉肥':
             raceType = '拉拉肥';
@@ -65,7 +66,8 @@ const catPic = async (
         });
         spread = false; // msg will not be spreaded to other plugins
         const max = await chatImageRepository.count();
-        const random = Math.floor(Math.random() * (max + 1));
+        // fixme: code below is not soft to use
+        const random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
         const imgRecord = await chatImageRepository.findOne({
           where: {
             id: random,
@@ -137,7 +139,8 @@ const catPic = async (
       });
       spread = false; // msg will not be spreaded to other plugins
       const max = await chatImageRepository.count();
-      const random = Math.floor(Math.random() * (max + 1));
+      // fixme: code below is not soft to use
+      const random = Math.floor(Math.random() * (max - 11570  + 1) + 11570);
       const imgRecord = await chatImageRepository.findOne({
         where: {
           id: random,
