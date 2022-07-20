@@ -9,10 +9,10 @@ QQ频道: 拉拉肥; 拉拉菲尔（测试）
 QQ群：319833969
 
 您好，莉莉菈为您服务！
-- 📕@bot help||帮助 可以查看帮助
+- 📕 @bot help||帮助 可以查看帮助
+- ♥ @bot 随机拉拉肥 随机猫猫 || 私信bot 随机拉拉肥 随机猫猫  可以获取随机图
 - 🐟 道具检索 鱼名 -> 可以查询鱼类
 - 👴 @bot /role -> 可以获取身份组
-- 👻@bot wls ->list words from db 
 - 🕐 @bot dc utterance intent -> 可以添加自定义意图
 - 🎗️ @bot aws intent answer -> 可以添加自定义回答 
 - 🪐 @bot train -> 可以重新训练NLP
