@@ -6,6 +6,8 @@
 
 QQ频道: 拉拉肥; 拉拉菲尔（测试）
 
+点击加入QQ频道【[拉拉肥](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=3XQuR&businessType=9&from=181074&biz=ka&shareSource=5)】
+
 QQ群：319833969
 
 您好，莉莉菈为您服务！
