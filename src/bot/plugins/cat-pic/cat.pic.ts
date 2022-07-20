@@ -47,9 +47,20 @@ const catPic = async (
           });
         spread = false; // msg will not be spreaded to other plugins
       }
-      if (content?.includes('拉拉肥')) {
+      if (content?.includes('随机')) {
+        let raceType = content.replace('随机', '').trim();
+        switch (raceType) {
+          case '拉拉肥':
+            raceType = '拉拉肥';
+            break;
+          case '猫猫':
+            raceType = 'Miqote';
+            break;
+          default:
+            raceType = '拉拉肥';  
+        }
         client.messageApi.postMessage(channelID, {
-          content: '拉拉肥',
+          content: '正在搜索... 请稍后',
           msg_id: data.msg.id,
         });
         spread = false; // msg will not be spreaded to other plugins
@@ -58,10 +69,20 @@ const catPic = async (
         const imgRecord = await chatImageRepository.findOne({
           where: {
             id: random,
+            type: raceType,
           },
         });
-        const img = baseConfig.datasetDir + '拉拉肥/' + imgRecord.filename;
-        postImage(data.msg, img);
+        if (imgRecord) {
+          const img = baseConfig.datasetDir + raceType + '/' + imgRecord.filename;
+          postImage(data.msg, img);
+        } else {
+          console.log('no record');
+          client.messageApi.postMessage(channelID, {
+            content: '没有找到图片',
+            msg_id: data.msg.id,
+          });
+        }
+        
       }
     }
   }
@@ -97,7 +118,19 @@ const catPic = async (
         });
       spread = false; // msg will not be spreaded to other plugins
     }
-    if (content?.includes('拉拉肥')) {
+    if (content?.includes('随机')) {
+      let raceType = content.replace('随机', '').trim();
+      switch (raceType) {
+        case '拉拉肥':
+          raceType = '拉拉肥';
+          break;
+        case '猫猫':
+          raceType = 'Miqote';
+          break;
+        default:
+          raceType = '拉拉肥';  
+      }
+      
       postDirectMessage(data.msg.guild_id, {
         content: '正在搜索... 请稍后',
         msg_id: data.msg.id,
@@ -108,10 +141,19 @@ const catPic = async (
       const imgRecord = await chatImageRepository.findOne({
         where: {
           id: random,
+          type: raceType,
         },
       });
-      const img = baseConfig.datasetDir + '拉拉肥/' + imgRecord.filename;
-      posteDirectImage(data.msg, img);
+      if (imgRecord) {
+        const img = baseConfig.datasetDir + raceType+ '/' + imgRecord.filename;
+        posteDirectImage(data.msg, img);
+      } else {
+        console.log('no record');
+        postDirectMessage(data.msg.guild_id, {
+          content: '没有找到图片',
+          msg_id: data.msg.id,
+        });
+      }
     }
   }
   return spread;
