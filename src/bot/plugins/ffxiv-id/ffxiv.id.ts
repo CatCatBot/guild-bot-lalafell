@@ -125,7 +125,7 @@ const ffxivId = async (
                   color: #fff;
                   display: flex;
                   flex-direction: column;
-                  font-family: Josefin Sans, serif;
+                  font-family: 'Roboto', sans-serif;
                   font-size: 14px;
                   font-weight: 600;
                   justify-content: center;
@@ -158,7 +158,7 @@ const ffxivId = async (
             
                 .b-user-info-text-name {
                 padding-bottom: 10px;
-                color: #fff;
+                color: #ffffff;
                 display: block;
                 font-size: 24px;
                 font-weight: 400;

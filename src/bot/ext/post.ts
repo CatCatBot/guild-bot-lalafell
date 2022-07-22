@@ -22,7 +22,7 @@ export async function postImage(msg: IMessage, picName: string) {
   })
     .then(async (res) => {
       const body: any = await res.json();
-      if (body.code) throw new Error(body);
+      if (body.code) throw new Error(body.message);
     })
     .catch((error) => {
       console.error(error);
