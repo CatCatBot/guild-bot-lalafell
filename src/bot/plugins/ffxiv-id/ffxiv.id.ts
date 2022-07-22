@@ -69,7 +69,6 @@ const ffxivId = async (
         if (user) {
           console.log(user);
           nodeHtmlToImage({
-            puppeteerArgs: { args: ['--no-sandbox'] },
             output: './src/bot/plugins/ffxiv-id/card.png',
             html: ` 
             <html>
