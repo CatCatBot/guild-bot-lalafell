@@ -57,8 +57,7 @@ const ffxivId = async (
           });
         } else {
           // get other card
-          const temp = '<!@123431>';
-          const gid = temp.replace('<@!', '').replace('>', '');
+          const gid = cc.replace('<@!', '').replace('>', '');
           user = await guildLiLiLaUserRepository.findOne({
             where: {
               gid: gid,
@@ -69,6 +68,7 @@ const ffxivId = async (
         if (user) {
           console.log(user);
           nodeHtmlToImage({
+            puppeteerArgs: { args: ['--no-sandbox'] },
             output: './src/bot/plugins/ffxiv-id/card.png',
             html: ` 
             <html>
