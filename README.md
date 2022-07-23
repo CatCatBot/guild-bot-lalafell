@@ -80,5 +80,7 @@ pm2 start npm --name lalafellBot -- start
 ```
 ## 感谢
 ffxiv-fish 使用了[ffxiv-datamining-cn](https://github.com/thewakingsands/ffxiv-datamining-cn)数据。
+
 huajianji 使用了[chinese-poetry](https://github.com/chinese-poetry/chinese-poetry)数据。
+
 随机拉拉肥 随机猫猫 图片来自[eorzeacollection](https://ffxiv.eorzeacollection.com/)。
