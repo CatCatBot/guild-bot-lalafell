@@ -11,13 +11,14 @@ const rolePlay = async (
   spread: boolean,
 ) => {
   if (data.eventType.toString() === 'MESSAGE_CREATE' && spread) {
-    console.log('loading role play...');
     const channelID = data.msg.channel_id;
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
     if (content?.includes(`<@!${baseConfig.robotId}>`)) {
       try {
         if (content?.includes('/role')) {
+          console.log('loading role play...');
+          spread = false; // msg will not be spreaded to other plugins
           // 查询所有身份组
           const { data: rolesData } = await client.roleApi.roles(guildID);
           const roles = rolesData.roles;
@@ -73,7 +74,6 @@ const rolePlay = async (
               console.info(res.data);
             })
             .catch(console.error);
-          spread = false; // msg will not be spreaded to other plugins
         }
       } catch (e) {
         console.error(e);

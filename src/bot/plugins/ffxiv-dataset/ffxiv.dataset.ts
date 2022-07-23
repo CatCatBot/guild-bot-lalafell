@@ -12,7 +12,6 @@ const ffxivDataset = async (
   spread: boolean,
 ) => {
   if (data.eventType === 'MESSAGE_CREATE' && spread || data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
-    console.log(data);
     const channelID = data.msg.channel_id;
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
@@ -20,6 +19,7 @@ const ffxivDataset = async (
     if (content?.includes(`<@!${baseConfig.robotId}>`) || data.eventType === 'DIRECT_MESSAGE_CREATE') {
       if (content?.includes('dataset')) {
         console.log('loading plugin: ffxiv dataset...');
+        spread = false; // msg will not be spreaded to other plugins
         // postImage(data.msg, 'help.png');
         const params = content.split(' ');
         let chatImage = new ChatImage();
@@ -60,7 +60,6 @@ const ffxivDataset = async (
             msg_id: data.msg.id,
           });
         }
-        spread = false; // msg will not be spreaded to other plugins
       }
     }
   }

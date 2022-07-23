@@ -20,7 +20,6 @@ function initBot() {
   ws.on(
     AvailableIntentsEventsEnum.GUILD_MESSAGES,
     async (data: { eventType: string; msg: any }) => {
-      console.log(data);
       try {
         loadPlugins(client, data);
       } catch (error) {

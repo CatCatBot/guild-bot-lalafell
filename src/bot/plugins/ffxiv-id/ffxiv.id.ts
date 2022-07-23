@@ -16,12 +16,12 @@ const ffxivId = async (
   spread: boolean,
 ) => {
   if (data.eventType === 'MESSAGE_CREATE' && spread) {
-    console.log(data);
     const channelID = data.msg.channel_id;
     const content = data.msg?.content;
     const userID = data.msg?.author.id;
     if (content?.includes(`<@!${baseConfig.robotId}>`)) {
       if (content?.includes('名片 帮助')) {
+        console.log('loading plugin: ffxiv-id ...');
         spread = false; // msg will not be spreaded to other plugins
         const help_text =
           `📘 @bot 名片 帮助 -> 查看名片帮助\n` +
@@ -39,6 +39,7 @@ const ffxivId = async (
         });
       }
       if (content?.includes('card')) {
+        console.log('loading plugin: ffxiv-id ...');
         spread = false; // msg will not be spreaded to other plugins
         const cc = content
           .replace(`<@!${baseConfig.robotId}>`, '')
@@ -222,6 +223,7 @@ const ffxivId = async (
     const content = data.msg?.content;
     const userID = data.msg?.author?.id;
     if (content?.includes('名片 帮助')) {
+      console.log('loading plugin: ffxiv-id ...');
       spread = false; // msg will not be spreaded to other plugins
       const help_text =
         `📘 @bot 名片 帮助 -> 查看名片帮助\n` +
@@ -415,8 +417,7 @@ const ffxivId = async (
   }
   return spread;
 };
-
-
+return spread;
 }
 async function cardUsageHandler(usage: any, userID: any,spread:boolean, data:  {
   eventType: string;
@@ -433,6 +434,7 @@ async function cardUsageHandler(usage: any, userID: any,spread:boolean, data:  {
     usage = usage.replace(' ', '');
   }
   if (usage?.includes('添加名片')) {
+    console.log('loading plugin ffxiv-id');
     spread = false; // msg will not be spreaded to other plugins
     const content_arr = usage.split(' ');
     const nickname = content_arr[1];
@@ -464,6 +466,7 @@ async function cardUsageHandler(usage: any, userID: any,spread:boolean, data:  {
   }
 
   if (usage?.includes('修改名片')) {
+    console.log('loading plugin ffxiv-id');
     spread = false; // msg will not be spreaded to other plugins
     const user = await guildLiLiLaUserRepository.findOne({
       where: {

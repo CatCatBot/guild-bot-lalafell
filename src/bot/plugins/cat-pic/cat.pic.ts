@@ -18,12 +18,13 @@ const catPic = async (
   spread: boolean,
 ) => {
   if (data.eventType === 'MESSAGE_CREATE' && spread) {
-    console.log(data);
     const channelID = data.msg.channel_id;
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
     if (content?.includes(`<@!${baseConfig.robotId}>`)) {
       if (content?.includes('pic')) {
+        console.log('loading plugin: cat-pic ... from pixiv');
+        spread = false; // msg will not be spreaded to other plugins
         // postImage(data.msg, 'help.png');
         const params = content.split(' ');
         let img = 'C://Users//woshi//Pictures//barbara.jpg';
@@ -45,10 +46,10 @@ const catPic = async (
           .catch((error: any) => {
             console.error(error);
           });
-        spread = false; // msg will not be spreaded to other plugins
       }
       let randomContent = content.split(' ')[1];
       if (randomContent?.includes('随机')) {
+        console.log('loading plugin: cat-pic ...');
         spread = false; // msg will not be spreaded to other plugins
         let raceType = randomContent.replace('随机', '').trim();
         const max = await chatImageRepository.count();
@@ -97,6 +98,8 @@ const catPic = async (
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
     if (content?.includes('pic')) {
+      console.log('loading plugin: cat-pic ... from pixiv');
+      spread = false; // msg will not be spreaded to other plugins
       // postImage(data.msg, 'help.png');
       let img = '';
       try {
@@ -121,9 +124,9 @@ const catPic = async (
         .catch((error: any) => {
           console.error(error);
         });
-      spread = false; // msg will not be spreaded to other plugins
     }
     if (content?.includes('随机')) {
+      console.log('loading plugin: cat-pic ...');
       spread = false; // msg will not be spreaded to other plugins
       let raceType = content.replace('随机', '').trim();
       const max = await chatImageRepository.count();

@@ -11,12 +11,13 @@ const nlpReply = async (
   spread: boolean,
 ) => {
   if (data.eventType === 'MESSAGE_CREATE' && spread) {
-    console.log(data);
     const channelID = data.msg.channel_id;
     const guildID = data.msg.guild_id;
     const content = data.msg?.content;
     if (content?.includes(`<@!${baseConfig.robotId}>`)) {
       if (content?.includes('dc')) {
+        console.log('loading plugin: nlp-reply ...');
+        spread = false; // msg will not be spreaded to other plugins
         const utterance = content.split(' ')[2].trim();
         const intent = content.split(' ')[3].trim();
         //todo add to db
@@ -31,6 +32,8 @@ const nlpReply = async (
           msg_id: data.msg.id,
         });
       } else if (content?.includes('aws')) {
+        console.log('loading plugin: nlp-reply ...');
+        spread = false; // msg will not be spreaded to other plugins
         const intent = content.split(' ')[2].trim();
         const awser = content.split(' ')[3].trim();
         const words = new Words();
@@ -45,6 +48,8 @@ const nlpReply = async (
         });
         //todo add to db
       } else if (content?.includes('train')) {
+        console.log('loading plugin: nlp-reply ...');
+        spread = false; // msg will not be spreaded to other plugins
         // retrain nlp
         await client.messageApi.postMessage(channelID, {
           content: '正在重新训练NLP...',
@@ -56,6 +61,8 @@ const nlpReply = async (
           msg_id: data.msg.id,
         });
       } else if (content?.includes('wls')) {
+        console.log('loading plugin: nlp-reply ...');
+        spread = false; // msg will not be spreaded to other plugins
         // list all words
         const words = await wordsRepository.find();
         let msg_conetent = '';
@@ -77,6 +84,7 @@ const nlpReply = async (
           }
         }
       } else {
+        spread = false; // msg will not be spreaded to other plugins
         const manager = await initTraning(false);
         const response = await manager.process('zh', content.split(' ')[1]);
         console.log(response);
@@ -86,10 +94,12 @@ const nlpReply = async (
           msg_id: data.msg.id,
         });
       }
-      spread = false; // msg will not be spreaded to other plugins
+      
     }
   }
   if (data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
+    console.log('loading plugin: nlp-reply ...');
+    spread = false; // msg will not be spreaded to other plugins
     const manager = await initTraning(false);
         const response = await manager.process('zh', data.msg.content);
         console.log(response);
