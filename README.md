@@ -1,6 +1,8 @@
 # 莉莉菈 
 
-（QQ频道机器人）
+QQ频道机器人
+
+![pongpongpong](./building.gif)
 
 ### 所在频道(拉拉肥；拉拉菲尔)
 

@@ -403,7 +403,7 @@ const ffxivId = async (
       }
 
     }
-    let usage = content.replace(`<@!${baseConfig.robotId}>`, '').trim();
+    let usage:string = content?.replace(`<@!${baseConfig.robotId}>`, '').trim();
       let cardHanderResult = await cardUsageHandler(usage, userID, spread, data);
       let reply = cardHanderResult.reply;
       spread = cardHanderResult.spread;
@@ -418,11 +418,17 @@ const ffxivId = async (
 
 
 }
-async function cardUsageHandler(usage: string, userID: any,spread:boolean, data:  {
+async function cardUsageHandler(usage: any, userID: any,spread:boolean, data:  {
   eventType: string;
   msg: any;
 }) {
   let reply = '';
+  if(!usage){
+    return {
+      reply: '',
+      spread: spread,
+    }
+  }
   if (usage.startsWith(' ')) {
     usage = usage.replace(' ', '');
   }
