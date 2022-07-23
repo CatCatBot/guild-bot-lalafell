@@ -3,7 +3,7 @@ import ffxivDataset from '../plugins/ffxiv-dataset/ffxiv.dataset';
 import queryFish from '../plugins/ffxiv-fish/ffxiv.fish';
 import ffxivId from '../plugins/ffxiv-id/ffxiv.id';
 import helpText from '../plugins/help-text/help.text';
-import huajianji from '../plugins/huanjianji/huajianji';
+import huajianji from '../plugins/huajianji/huajianji';
 import nlpReply from '../plugins/nlp-reply/nlp.reply';
 import rolePlay from '../plugins/role-play/role-play';
 
