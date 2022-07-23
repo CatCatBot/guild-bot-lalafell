@@ -7,8 +7,6 @@ import {
 } from 'qq-guild-bot';
 import { lalafellConfig, baseConfig } from './bot/config/lalafell.config';
 import { loadPlugins } from './bot/core/core';
-import { createDirectMessage, postDirectMessage } from './bot/ext/post';
-import { secret } from './bot/config/s.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

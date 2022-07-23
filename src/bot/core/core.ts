@@ -3,6 +3,7 @@ import ffxivDataset from '../plugins/ffxiv-dataset/ffxiv.dataset';
 import queryFish from '../plugins/ffxiv-fish/ffxiv.fish';
 import ffxivId from '../plugins/ffxiv-id/ffxiv.id';
 import helpText from '../plugins/help-text/help.text';
+import huajianji from '../plugins/huanjianji/huajianji';
 import nlpReply from '../plugins/nlp-reply/nlp.reply';
 import rolePlay from '../plugins/role-play/role-play';
 
@@ -12,6 +13,7 @@ const loadPlugins = async (
 ) => {
   console.info('loading plugins...');
   let spread = true;
+  spread = await huajianji(client, data, spread);
   spread = await ffxivId(client, data, spread);
   spread = await catPic(client, data, spread);
   spread = await queryFish(client, data, spread);

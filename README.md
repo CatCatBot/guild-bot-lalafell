@@ -16,6 +16,7 @@ QQ群：319833969
 - 📕 @bot help||帮助 可以查看帮助
 - 🌱 @bot 名片 帮助 -> 可以查看名片相关帮助
 - ♥ @bot 随机拉拉肥 随机猫猫 || 私信bot 随机拉拉肥 随机猫猫  可以获取随机图
+- 🌸 @bot 花间集 可以获取随机花间集的诗词
 - 🐟 道具检索 鱼名 -> 可以查询鱼类
 - 👴 @bot /role -> 可以获取身份组
 - 🕐 @bot dc utterance intent -> 可以添加自定义意图
@@ -78,4 +79,6 @@ npm run build
 pm2 start npm --name lalafellBot -- start
 ```
 ## 感谢
-ffxiv-fish使用了[此项目](https://github.com/thewakingsands/ffxiv-datamining-cn)数据.
+ffxiv-fish 使用了[ffxiv-datamining-cn](https://github.com/thewakingsands/ffxiv-datamining-cn)数据。
+huajianji 使用了[chinese-poetry](https://github.com/chinese-poetry/chinese-poetry)数据。
+随机拉拉肥 随机猫猫 图片来自[eorzeacollection](https://ffxiv.eorzeacollection.com/)。

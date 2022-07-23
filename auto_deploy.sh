@@ -13,7 +13,8 @@ npm run build
 cp -R src/bot/utils/nsfw/model dist/bot/utils/nsfw/model
 mkdir dist/bot/plugins/ffxiv-fish/data
 cp src/bot/plugins/ffxiv-fish/data/Item.json dist/bot/plugins/ffxiv-fish/data/Item.json
-
+mkdir dist/bot/plugins/huajianji/data
+cp src/bot/plugins/huajianji/data/*.json dist/bot/plugins/huajianji/data/*.json
 #启动服务
 pm2 delete all
 pm2 start npm --name lalafellBot -- start

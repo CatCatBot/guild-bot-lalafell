@@ -11,7 +11,6 @@ const ffxivDataset = async (
   data: { eventType: string; msg: any },
   spread: boolean,
 ) => {
-  console.log('loading plugin: ffxiv dataset...');
   if (data.eventType === 'MESSAGE_CREATE' && spread || data.eventType === 'DIRECT_MESSAGE_CREATE' && spread) {
     console.log(data);
     const channelID = data.msg.channel_id;
@@ -20,6 +19,7 @@ const ffxivDataset = async (
     const attachments = data.msg?.attachments;
     if (content?.includes(`<@!${baseConfig.robotId}>`) || data.eventType === 'DIRECT_MESSAGE_CREATE') {
       if (content?.includes('dataset')) {
+        console.log('loading plugin: ffxiv dataset...');
         // postImage(data.msg, 'help.png');
         const params = content.split(' ');
         let chatImage = new ChatImage();
