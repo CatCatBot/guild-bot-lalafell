@@ -233,10 +233,10 @@ const ffxivId = async (
         '   |  [头像]对应一张图片即可，私信暂时不能文字、图片一起发送,\n' +
         '   |  可以在频道中@bot补全或修改。\n' +
         '   └  [所在服务器]示例:‘修改名片 所在服务器 猫小胖.柔风海湾’。';
-      client.messageApi.postMessage(channelID, {
+      postDirectMessage(guildID,{
         content: help_text,
         msg_id: data.msg.id,
-      });
+      })
     }
     if (content?.includes('card')) {
       spread = false; // msg will not be spreaded to other plugins
