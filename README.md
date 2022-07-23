@@ -79,3 +79,4 @@ pm2 start npm --name lalafellBot -- start
 ```
 ## 感谢
 ffxiv-fish使用了[此项目](https://github.com/thewakingsands/ffxiv-datamining-cn)数据。
+![lalafell](https://cat.loli.monster/images/llf.png)
