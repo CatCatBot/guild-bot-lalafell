@@ -20,4 +20,17 @@ const baseConfig = {
 const pixivConfig = {
   freshToken: secret.freshToken,
 };
-export { lalafellConfig, baseConfig, pixivConfig };
+
+const mailConfig= {
+  host: secret.mail.host,
+  port: secret.mail.port,
+  secure: secret.mail.secure,
+  auth: {
+    user: secret.mail.auth.user,
+    pass: secret.mail.auth.pass,
+  },
+  logger: true,
+  transactionLog: true,
+  allowInternalNetworkInterfaces: false,
+};
+export { lalafellConfig, baseConfig, pixivConfig, mailConfig };

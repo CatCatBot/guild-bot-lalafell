@@ -4,6 +4,7 @@ import queryFish from '../plugins/ffxiv-fish/ffxiv.fish';
 import ffxivId from '../plugins/ffxiv-id/ffxiv.id';
 import helpText from '../plugins/help-text/help.text';
 import huajianji from '../plugins/huajianji/huajianji';
+import loliMail from '../plugins/loli-mail/loli.mail';
 import nlpReply from '../plugins/nlp-reply/nlp.reply';
 import rolePlay from '../plugins/role-play/role-play';
 
@@ -12,6 +13,9 @@ const loadPlugins = async (
   data: { eventType: string; msg: any },
 ) => {
   console.log(data);
+  if (data.msg.attachments?.length > 0) {
+    console.log(data.msg.attachments);
+  }
   console.info('loading plugins...');
   let spread = true;
   spread = await huajianji(client, data, spread);
@@ -28,6 +32,8 @@ const loadPlugins = async (
   console.log(`after rolePlay: ${spread}`);
   spread = await ffxivDataset(client, data, spread);
   console.log(`after ffxivDataset: ${spread}`);
+  spread = await loliMail(client, data, spread);
+  console.log(`after loliMail: ${spread}`);
   spread = await helpText(client, data, spread);
   console.log(`after hlet-text:` + spread)
   await nlpReply(client, data, spread);
